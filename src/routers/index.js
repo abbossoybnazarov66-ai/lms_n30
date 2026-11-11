@@ -8,6 +8,7 @@ import categoriesRouter from "./category.route.js"
 import coursesRouter from "./courses.route.js"
 import sectionsRouter from "./sections.route.js"
 import lessonsRouter from "./lessons.route.js"
+import materialsRouter from "./materials.route.js"
 
 
 
@@ -27,6 +28,7 @@ main
 .use("/api/v1/",coursesRouter)
 .use("/api/v1/",sectionsRouter)
 .use("/api/v1/",lessonsRouter)
+.use("/api/v1/",materialsRouter)
 
 
 

@@ -7,9 +7,12 @@ import {roleGuard} from "../guards/role.guard.js"
 const router = Router();
 
 router
-.get("/course",authGuard,roleGuard("admin","teacher"),courseController.getCourses)
 
-.post("/course",authGuard,roleGuard("teacher"),middleWare.courseCreate,courseController.createCourses)
+
+.get("/course", authGuard,roleGuard("admin","teacher"),courseController.getCourses)
+.get("/course/teacher", authGuard, roleGuard("admin", "teacher"), courseController.getMycourses)
+
+.post("/course",authGuard,roleGuard("admin","teacher"),middleWare.courseCreate,courseController.createCourses)
 
 .delete("/course/:id", authGuard, roleGuard("admin", "teacher"), courseController.deleteCourses)
 .put("/course/:id", authGuard, roleGuard("admin", "teacher"), courseController.updateCourses)

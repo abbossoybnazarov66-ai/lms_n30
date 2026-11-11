@@ -11,7 +11,7 @@ router
 .get("/sections/:course_id",authGuard,roleGuard("teacher"),sectionController.getMySections)
 
 
-.post("/sections",authGuard,roleGuard("teacher") ,middleWare.sectionCreate,sectionController.createSections)
+.post("/sections",authGuard,roleGuard("teacher") ,sectionController.createSections)
 
 .put("/sections/:id",authGuard,roleGuard("teacher"),sectionController.updateSections)
 .delete("/sections/:id",authGuard,roleGuard("teacher"),sectionController.deleteSections)

@@ -12,23 +12,73 @@ fs.mkdirSync(VIDEO_DIR, { recursive: true })
 
 class courseService {
 
-    async getCourses(req, res, next) {
+
+
+    async getMyCourses(req) {
         try {
-            const courses = await pool.query(
+            let mentorId = req.user.id;
+
+            let courses = await pool.query(
+                `
+                SELECT c.*, cat.name as category_name
+                FROM courses c
+                LEFT JOIN categories cat ON c.category_id = cat.id
+                WHERE c.teacher_id = $1
+                `,
+                [mentorId]
+            );
+
+            if (courses.rows.length === 0) {
+                return {
+                    status: 200,
+                    message: "Siz hali hech qanday kurs yaratmagansiz",
+                    data: []
+                };
+            }
+
+            return {
+                status: 200,
+                message: "Sizning kurslaringiz muvaffaqiyatli olindi",
+                data: courses.rows
+            };
+
+        } catch (error) {
+            return {
+                status: 500,
+                message: error.message,
+                data: []
+            };
+        }
+    }
+
+
+
+ async getCourses(req, res, next) {
+    try {
+        let courses
+
+        if (req.user.role === "teacher") {
+            courses = await pool.query(
+                `select id, banner, intro_video, name, description, price, teacher_id, category_id, level, status
+                 from courses
+                 where coalesce(status, 'active') <> 'inactive' and teacher_id = $1
+                 order by id`,
+                [req.user.id]
+            )
+        } else {
+            courses = await pool.query(
                 `select id, banner, intro_video, name, description, price, teacher_id, category_id, level, status
                  from courses
                  where coalesce(status, 'active') <> 'inactive'
                  order by id`
             )
-
-            return {
-                status: 200,
-                data: courses.rows
-            }
-        } catch (error) {
-            return next(new ErrorException(500, error))
         }
+
+        return { status: 200, data: courses.rows }
+    } catch (error) {
+        return next(new ErrorException(500, error))
     }
+}
 
     async createCourses(req, res, next) {
         try {

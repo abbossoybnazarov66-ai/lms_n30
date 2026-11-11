@@ -1,3 +1,4 @@
+
 import Joi from "joi"
 
 export default {
@@ -41,22 +42,40 @@ export default {
         description: Joi.string().max(1000),
         level: Joi.string().pattern(/^(beginner|elementary|advanced|intermediate)$/).required(),
         price: Joi.number().integer().positive().required(),
-        category_id: Joi.number().integer().positive().required()
+        category_id: Joi.number().integer().positive().required(),
+        teacher_id : Joi.number().integer().positive().required()
+
 
     }).validate(data),
 
     sectionSchema: (data) => Joi.object({
-        name: Joi.string().min(3).max(100),
+        name : Joi.string().min(3).max(100),
+        course_id : Joi.number().integer().positive().required
 
     }).validate(data),
 
+        lessonSchema: (data) => Joi.object({
+        section_id: Joi.number().integer().positive().required(),
+        name: Joi.string().min(3).max(255).required(),
+        description: Joi.string().max(1000).allow("", null)
+    }).validate(data),
+
+    lessonUpdateSchema: (data) => Joi.object({
+        name: Joi.string().min(3).max(255),
+        description: Joi.string().max(1000).allow("", null)
+    }).min(1).validate(data),
 
 
+        materialSchema: (data) => Joi.object({
+        lesson_id: Joi.number().integer().positive().required(),
+        description: Joi.string().max(1000).allow("", null)
+    }).validate(data),
+    
 
-
-
-
-
+    materialUpdateSchema: (data) => Joi.object({
+        description: Joi.string().max(1000).allow("", null).required()
+    }).validate(data),
 }
+
 
 

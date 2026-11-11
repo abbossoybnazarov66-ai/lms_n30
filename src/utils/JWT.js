@@ -4,7 +4,7 @@ import JWT from "jsonwebtoken"
 
 export function genereteAccessToken(payload){
 
-    return JWT.sign(payload,process.env.SECRET_KEY,{expiresIn:"30m"})
+    return JWT.sign(payload,process.env.SECRET_KEY,{expiresIn:"24h"})
 
 }
 

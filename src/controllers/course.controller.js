@@ -2,6 +2,17 @@ import courseService from "../service/course.service.js"
 class courseController {
 
 
+    async getMycourses(req, res, next) {
+        try {
+            const resData = await courseService.getMyCourses(req)
+            if (!resData) return
+            return res.status(resData.status).json(resData)
+        } catch (error) {
+            
+            return(error)
+        }
+    }
+
     async getCourses(req, res, next) {
         try {
             const resData = await courseService.getCourses(req, res, next)

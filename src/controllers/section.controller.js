@@ -9,12 +9,12 @@ class sectionController {
             return res.status(resData.status).json(resData)
         } catch (error) {
 
-            return (error)
+            return (next(error))
         }
     }
     async getMySections(req, res, next) {
         try {
-            const resData = await sectionService.getMySection(req,next)
+            const resData = await sectionService.getMySection(req, res, next)
             if (!resData) return
             return res.status(resData.status).json(resData)
         } catch (error) {
@@ -52,7 +52,7 @@ class sectionController {
     }
     async updateSections(req, res, next) {
 
-        const resData = await sectionService.updatesections(req, res, next)
+        const resData = await sectionService.updateSections(req, res, next)
         console.log(resData)
         if (!resData) return
         return res.status(resData.status).json(resData)

@@ -119,7 +119,7 @@ export default {
     },
     sectionCreate: (req, res, next) => {
         try {
-            let { error } = schema.courseSchema(req.body)
+            let { error } = schema.sectionSchema(req.body)
 
             if (error) {
 
@@ -136,6 +136,53 @@ export default {
 
         }
 
+    },
+        lessonCreate: (req, res, next) => {
+        try {
+            let { error } = schema.lessonSchema(req.body || {})
+            if (error) {
+                return next(new ErrorException(400, error.message))
+            }
+            return next()
+        } catch (error) {
+            return next(error)
+        }
+    },
+
+    lessonUpdate: (req, res, next) => {
+        try {
+            let { error } = schema.lessonUpdateSchema(req.body || {})
+            if (error) {
+                return next(new ErrorException(400, error.message))
+            }
+            return next()
+        } catch (error) {
+            return next(error)
+        }
+    },
+
+    materialsCreate: (req, res, next) => {
+        try {
+            let { error } = schema.materialSchema(req.body || {})
+            if (error) {
+                return next(new ErrorException(400, error.message))
+            }
+            return next()
+        } catch (error) {
+            return next(error)
+        }
+    },
+
+   materialsUpdate: (req, res, next) => {
+        try {
+            let { error } = schema.materialUpdateSchema(req.body || {})
+            if (error) {
+                return next(new ErrorException(400, error.message))
+            }
+            return next()
+        } catch (error) {
+            return next(error)
+        }
     },
     
 

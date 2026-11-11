@@ -23,7 +23,9 @@ class categoryService {
         try {
             const { name } = req.body
 
-            let existcategory = await pool.query(`select * from categories where name =$1`, [name])
+            let existcategory = await pool.query(
+                `select id from categories where name = $1 and status = 'active'`, [name]
+            )
             if (existcategory.rows.length) {
                 return next(new ErrorException(409, "category already exists"))
             }
@@ -40,7 +42,7 @@ class categoryService {
             }
 
         } catch (error) {
-            return next( new ErrorException(500, error))
+            return next(new ErrorException(500, error))
 
         }
 
@@ -95,7 +97,7 @@ class categoryService {
                   name = coalesce($1, name) where id = $2`,
 
                 [
-                    name,id
+                    name, id
 
                 ]
             );
